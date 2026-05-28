@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#b5566e" />
   <title>Sweet Dream · Pastelería & Cursos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,15 +34,16 @@
 
     /* ─── RESET ─────────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-size: 16px; }
+    html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
     body {
       background: var(--white);
       color: var(--text);
       font-family: var(--f-sans);
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
     img { display: block; width: 100%; }
-    a { text-decoration: none; color: inherit; }
+    a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; }
 
     /* ─── SCROLLBAR ──────────────────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 6px; }
@@ -97,13 +99,15 @@
       transition: var(--transition);
       cursor: pointer;
       border: none;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
     .btn-primary {
       background: var(--mauve);
       color: #fff;
       box-shadow: 0 6px 24px var(--shadow);
     }
-    .btn-primary:hover {
+    .btn-primary:hover, .btn-primary:active {
       background: var(--deep-rose);
       transform: translateY(-2px);
       box-shadow: 0 10px 32px var(--shadow);
@@ -113,7 +117,7 @@
       color: var(--mauve);
       border: 1.5px solid var(--rose);
     }
-    .btn-outline:hover {
+    .btn-outline:hover, .btn-outline:active {
       background: var(--blush);
       border-color: var(--mauve);
       transform: translateY(-2px);
@@ -123,10 +127,7 @@
       color: var(--mauve);
       box-shadow: 0 6px 24px rgba(0,0,0,.12);
     }
-    .btn-white:hover {
-      background: var(--blush);
-      transform: translateY(-2px);
-    }
+    .btn-white:hover { background: var(--blush); transform: translateY(-2px); }
 
     /* ─── FLOATING DECO ──────────────────────────────────────────────────── */
     .deco {
@@ -153,6 +154,7 @@
       padding: 1.1rem 2.5rem;
       background: rgba(253,246,240,.88);
       backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(232,160,176,.2);
       transition: var(--transition);
     }
@@ -165,20 +167,6 @@
       flex-direction: column;
       align-items: flex-start;
       line-height: 1;
-    }
-    .nav-logo span.script {
-      font-family: var(--f-display);
-      font-size: 1.9rem;
-      color: var(--mauve);
-      /* ★ LOGO AQUÍ ★ — reemplaza este texto por <img src="logo.png" …> */
-    }
-    .nav-logo span.sub {
-      font-family: var(--f-sans);
-      font-size: .58rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-      margin-top: -2px;
     }
     .nav-links {
       display: flex;
@@ -204,7 +192,15 @@
     .nav-links a:hover { color: var(--deep-rose); }
     .nav-links a:hover::after { width: 100%; }
     .nav-cta { display: flex; gap: .75rem; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      margin: -8px;
+      touch-action: manipulation;
+    }
     .hamburger span {
       display: block; width: 24px; height: 2px;
       background: var(--mauve); border-radius: 99px;
@@ -214,6 +210,7 @@
     /* ─── HERO ────────────────────────────────────────────────────────────── */
     #inicio {
       min-height: 100vh;
+      min-height: 100svh;
       display: flex;
       align-items: center;
       background: linear-gradient(135deg, var(--cream) 0%, var(--latte) 40%, var(--blush) 100%);
@@ -311,6 +308,7 @@
       width: 8px; height: 8px;
       background: var(--rose);
       border-radius: 50%;
+      flex-shrink: 0;
     }
     .hero-visual {
       position: relative;
@@ -325,19 +323,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
+    /* ── Hero fallback usa logo.png en lugar del emoji 🎂 ── */
     .hero-card-main-placeholder {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
+      gap: 1.2rem;
       padding: 2rem;
       text-align: center;
       color: var(--text-soft);
       height: 100%;
+      width: 100%;
     }
-    .hero-cake-icon { font-size: 7rem; filter: drop-shadow(0 8px 16px rgba(185,100,120,.3)); animation: floatDeco 4s ease-in-out infinite; }
+    .hero-logo-fallback {
+      width: min(160px, 60%);
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 20px rgba(185,100,120,.35));
+      animation: floatDeco 4s ease-in-out infinite;
+    }
     .hero-card-main-placeholder p {
       font-family: var(--f-serif);
       font-size: 1.1rem;
@@ -352,6 +359,7 @@
       position: absolute;
       background: rgba(253,246,240,.92);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-radius: 1rem;
       padding: .8rem 1.2rem;
       box-shadow: 0 10px 40px var(--shadow);
@@ -433,6 +441,8 @@
       color: var(--text-soft);
       cursor: pointer;
       transition: var(--transition);
+      touch-action: manipulation;
+      min-height: 36px;
     }
     .filter-btn.active,
     .filter-btn:hover {
@@ -514,15 +524,18 @@
     .catalog-footer .order-btn {
       background: var(--blush);
       border: none;
-      padding: .5rem 1rem;
+      padding: .55rem 1.1rem;
       border-radius: 99px;
       font-size: .75rem;
       font-weight: 500;
       color: var(--mauve);
       cursor: pointer;
       transition: var(--transition);
+      touch-action: manipulation;
+      min-height: 36px;
     }
-    .catalog-footer .order-btn:hover { background: var(--mauve); color: #fff; }
+    .catalog-footer .order-btn:hover,
+    .catalog-footer .order-btn:active { background: var(--mauve); color: #fff; }
 
     /* ─── CURSOS ─────────────────────────────────────────────────────────── */
     #cursos {
@@ -540,9 +553,7 @@
       position: relative;
       z-index: 1;
     }
-    .courses-visual {
-      position: relative;
-    }
+    .courses-visual { position: relative; }
     .courses-big-card {
       border-radius: 2rem;
       overflow: hidden;
@@ -778,17 +789,21 @@
       font-weight: 500;
       color: var(--text);
       backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      touch-action: manipulation;
+      min-height: 56px;
     }
-    .channel-btn:hover {
+    .channel-btn:hover, .channel-btn:active {
       background: var(--white);
       transform: translateX(4px);
       box-shadow: 0 8px 24px var(--shadow);
     }
-    .channel-btn .ch-icon { font-size: 1.4rem; }
+    .channel-btn .ch-icon { font-size: 1.4rem; flex-shrink: 0; }
     .channel-btn .ch-label { font-size: .72rem; color: var(--text-soft); display: block; margin-top: 1px; }
     .contact-form {
       background: rgba(255,255,255,.8);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-radius: 2rem;
       padding: 2.5rem;
       border: 1px solid rgba(232,160,176,.25);
@@ -820,10 +835,12 @@
       border: 1.5px solid rgba(232,160,176,.35);
       background: rgba(255,255,255,.9);
       font-family: var(--f-sans);
-      font-size: .88rem;
+      font-size: 1rem; /* 16px en móvil para evitar zoom en iOS */
       color: var(--text);
       transition: border-color .25s, box-shadow .25s;
       outline: none;
+      -webkit-appearance: none;
+      appearance: none;
     }
     .form-group input:focus,
     .form-group select:focus,
@@ -867,18 +884,17 @@
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
     .footer-col ul li { font-size: .82rem; }
     .footer-col ul li a:hover { color: var(--rose); }
-    .footer-social {
-      display: flex; gap: .75rem; margin-top: 1.2rem;
-    }
+    .footer-social { display: flex; gap: .75rem; margin-top: 1.2rem; }
     .social-icon {
-      width: 38px; height: 38px;
+      width: 44px; height: 44px;
       border-radius: 50%;
       background: rgba(255,255,255,.08);
       display: flex; align-items: center; justify-content: center;
       font-size: 1rem;
       transition: var(--transition);
+      touch-action: manipulation;
     }
-    .social-icon:hover { background: var(--mauve); transform: translateY(-2px); }
+    .social-icon:hover, .social-icon:active { background: var(--mauve); transform: translateY(-2px); }
     .footer-bottom {
       max-width: 1180px;
       margin: 0 auto;
@@ -903,8 +919,9 @@
       z-index: 200;
       transition: var(--transition);
       animation: pulsewa 2.5s ease infinite;
+      touch-action: manipulation;
     }
-    .wa-float:hover { transform: scale(1.1); box-shadow: 0 10px 32px rgba(37,211,102,.5); }
+    .wa-float:hover, .wa-float:active { transform: scale(1.1); box-shadow: 0 10px 32px rgba(37,211,102,.5); }
     @keyframes pulsewa {
       0%,100% { box-shadow: 0 6px 24px rgba(37,211,102,.4); }
       50%       { box-shadow: 0 6px 24px rgba(37,211,102,.4), 0 0 0 10px rgba(37,211,102,.1); }
@@ -922,12 +939,28 @@
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ─── RESPONSIVE ─────────────────────────────────────────────────────── */
+    /* ════════════════════════════════════════════════════════════════════════
+       RESPONSIVE — tablet (≤ 1024px)
+    ════════════════════════════════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .hero-inner { gap: 2rem; }
+      .courses-grid { gap: 2.5rem; }
+    }
+
+    /* ════════════════════════════════════════════════════════════════════════
+       RESPONSIVE — tablet portrait / large phone (≤ 900px)
+    ════════════════════════════════════════════════════════════════════════ */
     @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 3rem 1.5rem;
+        gap: 2.5rem;
+      }
       .hero-text { order: 2; }
-      .hero-visual { order: 1; max-width: 340px; margin: 0 auto; }
-      .hero-desc, .hero-eyebrow { margin-left: auto; margin-right: auto; }
+      .hero-visual { order: 1; max-width: 360px; margin: 0 auto; }
+      .hero-desc { margin-left: auto; margin-right: auto; }
+      .hero-eyebrow { margin-left: auto; margin-right: auto; }
       .hero-buttons { justify-content: center; }
       .hero-badges { justify-content: center; }
       .hero-card-float.top-left { top: -10px; left: -10px; }
@@ -935,52 +968,131 @@
       .courses-grid { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
       .footer-inner { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 620px) {
-      .section { padding: 4rem 1.2rem; }
-      .nav-links, .nav-cta { display: none; }
-      .hamburger { display: flex; }
-      nav { padding: 1rem 1.5rem; }
-      .hero-inner { padding: 3rem 1.5rem; }
-      .catalog-grid { grid-template-columns: 1fr 1fr; }
-      .benefits-grid { grid-template-columns: 1fr 1fr; }
-      .testi-grid { grid-template-columns: 1fr; }
-      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
-      .footer-bottom { flex-direction: column; gap: .5rem; text-align: center; }
-      .form-grid { grid-template-columns: 1fr; }
-      .mini-cards { grid-template-columns: 1fr 1fr; }
-      .courses-big-card { padding: 2rem 1.5rem; }
-    }
-    @media (max-width: 380px) {
-      .catalog-grid { grid-template-columns: 1fr; }
-      .benefits-grid { grid-template-columns: 1fr; }
+      .about-strip .stats { gap: 2rem; }
     }
 
-    /* ─── MOBILE NAV OPEN ────────────────────────────────────────────────── */
+    /* ════════════════════════════════════════════════════════════════════════
+       RESPONSIVE — phone (≤ 640px) — iPhone & Android
+    ════════════════════════════════════════════════════════════════════════ */
+    @media (max-width: 640px) {
+      :root { font-size: 15px; }
+
+      /* Nav */
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      nav { padding: 1rem 1.25rem; }
+      nav.scrolled { padding: .75rem 1.25rem; }
+
+      /* Sections */
+      .section { padding: 3.5rem 1.25rem; }
+
+      /* Hero */
+      #inicio { padding-top: 80px; }
+      .hero-inner { padding: 2.5rem 1.25rem 3rem; gap: 2rem; }
+      .hero-title { font-size: clamp(2.2rem, 9vw, 3rem); }
+      .hero-desc { font-size: .92rem; max-width: 100%; }
+      .hero-visual { max-width: 300px; }
+      .hero-card-float { display: none; }   /* oculta floats en pantallas muy chicas */
+      .hero-decos { display: none; }
+      .hero-badges { gap: 1rem; flex-direction: column; align-items: center; }
+
+      /* Catalog */
+      .catalog-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .catalog-body { padding: 1rem 1rem 1.2rem; }
+      .catalog-body h3 { font-size: 1rem; }
+      .catalog-body p { display: none; } /* limpia cards chicas */
+      .catalog-footer .price { font-size: 1.1rem; }
+
+      /* Cursos */
+      .courses-big-card { padding: 2rem 1.5rem; }
+      .courses-big-card h3 { font-size: 1.6rem; }
+      .mini-cards { grid-template-columns: 1fr 1fr; }
+      .courses-cta-buttons { flex-direction: column; }
+      .courses-cta-buttons .btn { justify-content: center; }
+
+      /* Benefits */
+      .benefits-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .benefit-card { padding: 1.5rem 1rem; }
+
+      /* Stats strip */
+      .about-strip { padding: 3.5rem 1.25rem; }
+      .about-strip .stats { gap: 1.5rem; }
+      .stat .num { font-size: 2.2rem; }
+
+      /* Testimonials */
+      .testi-grid { grid-template-columns: 1fr; }
+
+      /* Contact */
+      .contact-info h2 { font-size: 2.2rem; }
+      .contact-form { padding: 1.75rem 1.25rem; border-radius: 1.5rem; }
+      .form-grid { grid-template-columns: 1fr; }
+
+      /* Footer */
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; gap: .5rem; text-align: center; }
+
+      /* WA button — safe inset for iPhone home bar */
+      .wa-float {
+        bottom: calc(1.5rem + env(safe-area-inset-bottom));
+        right: 1.25rem;
+        width: 52px; height: 52px;
+        font-size: 1.4rem;
+      }
+    }
+
+    /* ════════════════════════════════════════════════════════════════════════
+       RESPONSIVE — very small phone (≤ 390px) — iPhone SE, small Androids
+    ════════════════════════════════════════════════════════════════════════ */
+    @media (max-width: 390px) {
+      .catalog-grid { grid-template-columns: 1fr; }
+      .benefits-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: clamp(1.9rem, 10vw, 2.5rem); }
+      .hero-visual { max-width: 260px; }
+      .btn { font-size: .8rem; padding: .8rem 1.5rem; }
+      .strip-item { font-size: .88rem; }
+    }
+
+    /* ─── MOBILE NAV OVERLAY ────────────────────────────────────────────── */
     .mobile-nav {
       display: none;
       position: fixed; inset: 0;
       background: rgba(253,246,240,.97);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       z-index: 99;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 2rem;
+      padding: 2rem;
     }
     .mobile-nav.open { display: flex; }
     .mobile-nav a {
       font-family: var(--f-serif);
-      font-size: 2rem;
+      font-size: clamp(1.6rem, 6vw, 2rem);
       font-weight: 300;
       color: var(--text);
       transition: color .25s;
+      touch-action: manipulation;
     }
-    .mobile-nav a:hover { color: var(--deep-rose); }
+    .mobile-nav a:hover, .mobile-nav a:active { color: var(--deep-rose); }
     .mobile-nav-close {
       position: absolute; top: 1.5rem; right: 1.5rem;
       font-size: 1.8rem; cursor: pointer; color: var(--text-soft);
       background: none; border: none;
+      padding: 8px;
+      touch-action: manipulation;
+      min-width: 44px; min-height: 44px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ─── iOS safe area support ─────────────────────────────────────────── */
+    @supports (padding: max(0px)) {
+      nav { padding-left: max(2.5rem, env(safe-area-inset-left)); padding-right: max(2.5rem, env(safe-area-inset-right)); }
+      @media (max-width: 640px) {
+        nav { padding-left: max(1.25rem, env(safe-area-inset-left)); padding-right: max(1.25rem, env(safe-area-inset-right)); }
+      }
+      footer { padding-bottom: max(2rem, env(safe-area-inset-bottom)); }
     }
   </style>
 </head>
@@ -989,12 +1101,12 @@
   <!-- ══ MOBILE NAV OVERLAY ══ -->
   <div class="mobile-nav" id="mobileNav">
     <button class="mobile-nav-close" onclick="toggleMobileNav()">✕</button>
-    <a href="#inicio"     onclick="toggleMobileNav()">Inicio</a>
-    <a href="#catalogo"   onclick="toggleMobileNav()">Catálogo</a>
-    <a href="#cursos"     onclick="toggleMobileNav()">Cursos</a>
-    <a href="#beneficios" onclick="toggleMobileNav()">Beneficios</a>
+    <a href="#inicio"      onclick="toggleMobileNav()">Inicio</a>
+    <a href="#catalogo"    onclick="toggleMobileNav()">Catálogo</a>
+    <a href="#cursos"      onclick="toggleMobileNav()">Cursos</a>
+    <a href="#beneficios"  onclick="toggleMobileNav()">Beneficios</a>
     <a href="#testimonios" onclick="toggleMobileNav()">Reseñas</a>
-    <a href="#contacto"   onclick="toggleMobileNav()">Contacto</a>
+    <a href="#contacto"    onclick="toggleMobileNav()">Contacto</a>
   </div>
 
   <!-- ══ NAVBAR ══ -->
@@ -1017,7 +1129,7 @@
       <a href="https://wa.me/593986405922" class="btn btn-primary" style="padding:.65rem 1.4rem;font-size:.78rem;">Pedir ahora 🎂</a>
     </div>
 
-    <div class="hamburger" onclick="toggleMobileNav()">
+    <div class="hamburger" onclick="toggleMobileNav()" aria-label="Menú">
       <span></span><span></span><span></span>
     </div>
   </nav>
@@ -1052,14 +1164,15 @@
 
       <div class="hero-visual">
         <div class="hero-card-main">
-          <!-- Pon aquí tu imagen de portada renombrada como hero.png -->
+          <!-- Imagen principal del hero -->
           <img src="hero.png" alt="Sweet Dream - Torta principal"
                style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:2rem;"
                onerror="this.style.display='none';document.getElementById('hero-fallback').style.display='flex'">
+          <!-- Fallback: usa logo.png en lugar del emoji de torta -->
           <div id="hero-fallback" class="hero-card-main-placeholder" style="display:none">
-            <div class="hero-cake-icon">🎂</div>
+            <img src="logo.png" alt="Sweet Dream" class="hero-logo-fallback"
+                 onerror="this.style.display='none'">
             <p>"Tus ideas convertidas en arte"</p>
-            <small>Coloca hero.png en la carpeta</small>
           </div>
         </div>
 
@@ -1108,7 +1221,7 @@
   <section id="catalogo" class="section">
     <div class="container">
       <div class="catalog-header reveal">
-        <span class="section-tag">🍰 Nuestros productos</span>
+        <span class="section-tag">Nuestros productos</span>
         <h2 class="section-title">Arte hecho con <em>azúcar & amor</em></h2>
         <p class="section-sub" style="margin:0 auto">
           Cada creación es única, elaborada con ingredientes de primera calidad
@@ -1116,16 +1229,15 @@
         </p>
         <div class="catalog-filters">
           <button class="filter-btn active">Todos</button>
-          <button class="filter-btn">🎂 Tortas</button>
-          <button class="filter-btn">🧁 Cupcakes</button>
-          <button class="filter-btn">🍬 Dulces</button>
-          <button class="filter-btn">🍮 Postres</button>
+          <button class="filter-btn">Tortas</button>
+          <button class="filter-btn">Cupcakes</button>
+          <button class="filter-btn">Dulces</button>
+          <button class="filter-btn">Postres</button>
         </div>
       </div>
 
       <div class="catalog-grid">
 
-        <!-- CARD 1 — reemplaza el emoji por <img src=""> -->
         <div class="catalog-card reveal">
           <div class="catalog-img">
             <span class="catalog-badge">✨ Popular</span>
@@ -1141,7 +1253,6 @@
           </div>
         </div>
 
-        <!-- CARD 2 -->
         <div class="catalog-card reveal">
           <div class="catalog-img">
             <span class="catalog-badge" style="background:var(--caramel)">💕 Favorito</span>
@@ -1157,7 +1268,6 @@
           </div>
         </div>
 
-        <!-- CARD 3 -->
         <div class="catalog-card reveal">
           <div class="catalog-img">
             <img src="3.png" alt="Postres especiales">
@@ -1172,7 +1282,6 @@
           </div>
         </div>
 
-        <!-- CARD 4 -->
         <div class="catalog-card reveal">
           <div class="catalog-img">
             <span class="catalog-badge" style="background:var(--deep-rose)">🎉 Evento</span>
@@ -1188,7 +1297,6 @@
           </div>
         </div>
 
-        <!-- CARD 5 -->
         <div class="catalog-card reveal">
           <div class="catalog-img">
             <img src="5.png" alt="Macarons premium">
@@ -1203,7 +1311,6 @@
           </div>
         </div>
 
-        <!-- CARD 6 -->
         <div class="catalog-card reveal">
           <div class="catalog-img">
             <span class="catalog-badge" style="background:#a0c8a0">🌿 Sin azúcar</span>
@@ -1263,7 +1370,7 @@
         </div>
 
         <div class="courses-content reveal">
-          <span class="section-tag">🎂 Aprende repostería</span>
+          <span class="section-tag">Aprende repostería</span>
           <h2 class="section-title">
             Convierte tu<br>pasión en un
             <em>emprendimiento</em>
@@ -1309,7 +1416,7 @@
   <section id="beneficios" class="section">
     <div class="container">
       <div class="benefits-header reveal">
-        <span class="section-tag">💕 ¿Por qué elegirnos?</span>
+        <span class="section-tag">¿Por qué elegirnos?</span>
         <h2 class="section-title">Todo lo que necesitas para<br><em>brillar en repostería</em></h2>
       </div>
       <div class="benefits-grid">
@@ -1375,7 +1482,7 @@
   <section id="testimonios" class="section">
     <div class="container">
       <div class="testi-header reveal">
-        <span class="section-tag">💬 Reseñas</span>
+        <span class="section-tag">Reseñas</span>
         <h2 class="section-title">Lo que dicen nuestras<br><em>clientas y alumnas</em></h2>
       </div>
       <div class="testi-grid">
@@ -1480,28 +1587,28 @@
             Escríbenos y con gusto te atendemos de manera personalizada.
           </p>
           <div class="contact-channels">
-            <a href="https://wa.me/593986405922" class="channel-btn" target="_blank">
+            <a href="https://wa.me/593986405922" class="channel-btn" target="_blank" rel="noopener">
               <span class="ch-icon">💬</span>
               <div>
                 <strong>WhatsApp</strong>
                 <span class="ch-label">Respuesta rápida · +593 986 405 922</span>
               </div>
             </a>
-            <a href="https://instagram.com/sweetdream" class="channel-btn" target="_blank">
+            <a href="https://instagram.com/sweetdream" class="channel-btn" target="_blank" rel="noopener">
               <span class="ch-icon">📸</span>
               <div>
                 <strong>Instagram</strong>
                 <span class="ch-label">@sweetdream · Ver galería</span>
               </div>
             </a>
-            <a href="https://facebook.com/sweetdream" class="channel-btn" target="_blank">
+            <a href="https://facebook.com/sweetdream" class="channel-btn" target="_blank" rel="noopener">
               <span class="ch-icon">📘</span>
               <div>
                 <strong>Facebook</strong>
                 <span class="ch-label">Sweet Dream · Comunidad</span>
               </div>
             </a>
-            <a href="https://tiktok.com/@sweetdream" class="channel-btn" target="_blank">
+            <a href="https://tiktok.com/@sweetdream" class="channel-btn" target="_blank" rel="noopener">
               <span class="ch-icon">🎵</span>
               <div>
                 <strong>TikTok</strong>
@@ -1516,16 +1623,16 @@
           <div class="form-grid">
             <div class="form-group">
               <label>Tu nombre</label>
-              <input type="text" placeholder="Ej: María García" />
+              <input type="text" placeholder="Ej: María García" autocomplete="name" />
             </div>
             <div class="form-group">
               <label>WhatsApp / Teléfono</label>
-              <input type="tel" placeholder="Ej: 0987654321" />
+              <input type="tel" placeholder="Ej: 0987654321" autocomplete="tel" />
             </div>
           </div>
           <div class="form-group">
             <label>Correo electrónico</label>
-            <input type="email" placeholder="tucorreo@ejemplo.com" />
+            <input type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" />
           </div>
           <div class="form-group">
             <label>¿Qué necesitas?</label>
@@ -1556,15 +1663,14 @@
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
-        <!-- LOGO FOOTER -->
         <img src="logo.png" alt="Sweet Dream" style="height:60px;width:auto;object-fit:contain;margin-bottom:.75rem;" />
         <p>Pastelería artesanal con amor, dedicación y los mejores ingredientes.
            Hacemos tus sueños dulces realidad.</p>
         <div class="footer-social">
-          <a href="https://instagram.com" class="social-icon" target="_blank">📸</a>
-          <a href="https://facebook.com"  class="social-icon" target="_blank">📘</a>
-          <a href="https://tiktok.com"    class="social-icon" target="_blank">🎵</a>
-          <a href="https://wa.me/593986405922" class="social-icon" target="_blank">💬</a>
+          <a href="https://instagram.com" class="social-icon" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
+          <a href="https://facebook.com"  class="social-icon" target="_blank" rel="noopener" aria-label="Facebook">📘</a>
+          <a href="https://tiktok.com"    class="social-icon" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
+          <a href="https://wa.me/593986405922" class="social-icon" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
         </div>
       </div>
       <div class="footer-col">
@@ -1596,7 +1702,7 @@
 
   <!-- ══ WHATSAPP FLOAT ══ -->
   <a href="https://wa.me/593986405922?text=Hola!%20Me%20interesa%20saber%20más%20sobre%20Sweet%20Dream%20🎂"
-     class="wa-float" target="_blank" title="WhatsApp">
+     class="wa-float" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
     💬
   </a>
 
@@ -1606,7 +1712,7 @@
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 40);
-    });
+    }, { passive: true });
 
     /* ── Reveal on scroll ── */
     const reveals = document.querySelectorAll('.reveal');
@@ -1617,12 +1723,14 @@
           observer.unobserve(e.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08 });
     reveals.forEach(r => observer.observe(r));
 
     /* ── Mobile nav ── */
     function toggleMobileNav() {
-      document.getElementById('mobileNav').classList.toggle('open');
+      const nav = document.getElementById('mobileNav');
+      nav.classList.toggle('open');
+      document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
     }
 
     /* ── Filter buttons ── */
@@ -1635,7 +1743,7 @@
 
     /* ── Contact form → WhatsApp ── */
     function sendContactWA() {
-      const nombre   = document.querySelector('input[placeholder*="María"]').value || 'Cliente';
+      const nombre   = document.querySelector('input[type="text"]').value || 'Cliente';
       const necesita = document.querySelector('select').value || 'una consulta';
       const mensaje  = document.querySelector('textarea').value || '';
       const text = encodeURIComponent(
@@ -1643,6 +1751,9 @@
       );
       window.open(`https://wa.me/593986405922?text=${text}`, '_blank');
     }
+
+    /* ── Prevent zoom on input focus (iOS) ── */
+    /* font-size: 1rem (16px) en inputs ya previene esto sin JS extra */
   </script>
 </body>
 </html>
